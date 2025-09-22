@@ -61,7 +61,7 @@ class TempVoice(Extension):
             return
 
         # create the temporary channel and move the user
-        new_channel = await self.create_temp_channel_and_move(member, best_category)
+        _ = await self.create_temp_channel_and_move(member, best_category)
 
     async def handle_voice_leave(self, member: Member, channel: GuildVoice):
         # skip if channel is not a temp channel
