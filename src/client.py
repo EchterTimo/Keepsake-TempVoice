@@ -13,7 +13,7 @@ client = Client(
     send_command_tracebacks=True,  # todo: remove in production
     activity=Activity(
         name="Jump Space",
-        state=f"v{__VERSION__}",
+        state=f"Bot v{__VERSION__}",
         type=ActivityType.PLAYING
     ),
     intents=Intents.new(
