@@ -7,7 +7,7 @@ client.load_extension('temp_voice')
 @client.listen(Ready)
 async def on_ready(event: Ready):
     print(
-        f"Bot is ready! Logged in as {event.bot.user.username}")
+        f"Bot is ready! Logged in as {event.bot.user.username}. v{client.version}")
 
 if __name__ == "__main__":
     print("Running bot...")
