@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.env": "properties"
+  },
+  "files.exclude": {
+    "**/__pycache__": true
+  }
+}
