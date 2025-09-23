@@ -18,8 +18,10 @@ def getenv_int(key: str):
 
 load_dotenv()
 _BOT_TOKEN = getenv('BOT_TOKEN')
+
 GENERATOR_CHANNEL_ID = getenv_int('GENERATOR_CHANNEL_ID')
 MAX_CHANNELS_PER_CATEGORY = getenv_int('MAX_CHANNELS_PER_CATEGORY')
 CATEGORIES = getenv_int_list('CATEGORIES')
 IGNORED_CHANNELS = getenv_int_list('IGNORED_CHANNELS')
 GUILD_ID = getenv_int('GUILD_ID')
+CREATION_COOLDOWN = getenv_int('CREATION_COOLDOWN')

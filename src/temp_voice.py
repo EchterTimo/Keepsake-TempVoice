@@ -1,3 +1,4 @@
+import time
 from interactions import (
     Extension,
     listen,
@@ -5,22 +6,33 @@ from interactions import (
     GuildVoice,
     Guild,
     ChannelType,
-    GuildCategory
+    GuildChannel,
+    Task,
+    IntervalTrigger
 )
 from interactions.api.events import (
     VoiceUserJoin,
     VoiceUserMove,
     VoiceUserLeave,
     ExtensionLoad,
-    Ready
+    Ready,
+    Startup
 )
-from config import GENERATOR_CHANNEL_ID, MAX_CHANNELS_PER_CATEGORY, CATEGORIES, IGNORED_CHANNELS, GUILD_ID
+from config import (
+    GENERATOR_CHANNEL_ID,
+    MAX_CHANNELS_PER_CATEGORY,
+    CATEGORIES,
+    IGNORED_CHANNELS,
+    GUILD_ID,
+    CREATION_COOLDOWN
+)
 print("-" * 140)
 print("Env GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
 print("Env CATEGORIES:", CATEGORIES)
 print("Env MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
 print("Env IGNORED_CHANNELS:", IGNORED_CHANNELS)
 print("Env GUILD_ID:", GUILD_ID)
+print("Env CREATION_COOLDOWN:", CREATION_COOLDOWN)
 
 
 class TempVoice(Extension):
@@ -36,9 +48,32 @@ class TempVoice(Extension):
             return
         await self.force_fetch_category_data(guild)
 
+    @listen(Startup)
+    async def on_startup(self, event: Startup):
+        self.cleanup_cooldowns.start()
+        print("started cleanup task")
+
+    @Task.create(IntervalTrigger(minutes=1))
+    async def cleanup_cooldowns(self):
+        '''
+        Periodically clean up old entries in the user_last_channel_creation dict
+        to prevent it from growing indefinitely.
+        '''
+        # print("storage:", self.user_last_channel_creation)
+        user_ids = list(self.user_last_channel_creation.keys())
+        for user_id in user_ids:
+            current_time = int(time.time())
+            last_creation_time = self.user_last_channel_creation[user_id]
+            if current_time - last_creation_time > CREATION_COOLDOWN:
+                del self.user_last_channel_creation[user_id]
+                # print(f"Cleaned up cooldown entry for user {user_id}")
+
     def __init__(self, bot):
         self.bot = bot
         self.category_channels: dict[int, list[int]] = {}
+
+        self.user_last_channel_creation: dict[int, int] = {}
+        '''user_id -> unix timestamp'''
 
     # Translate events into join and leave
 
@@ -70,6 +105,10 @@ class TempVoice(Extension):
         best_category = await self.get_best_category(member.guild)
         if best_category is None:
             print("[NOT GOOD] No available categories to create a new channel in")
+            return
+
+        # enforce user cooldown to prevent rapid join/leave exploits
+        if not await self.can_create_channel(member):
             return
 
         # create the temporary channel and move the user
@@ -195,4 +234,18 @@ class TempVoice(Extension):
         if category_id not in self.category_channels:
             return False
         self.category_channels[category_id].remove(channel_id)
+        return True
+
+    async def can_create_channel(self, member: Member) -> bool:
+        '''
+        Check if the user is allowed to create a new channel based on cooldown.
+        '''
+
+        current_time = int(time.time())
+        last_creation_time = self.user_last_channel_creation.get(member.id, 0)
+
+        if current_time - last_creation_time < CREATION_COOLDOWN:
+            return False
+
+        self.user_last_channel_creation[member.id] = current_time
         return True
