@@ -14,10 +14,11 @@ from interactions.api.events import (
     ExtensionLoad,
     Ready
 )
-from config import GENERATOR_CHANNEL_ID, MAX_CHANNELS_PER_CATEGORY, CATEGORIES
+from config import GENERATOR_CHANNEL_ID, MAX_CHANNELS_PER_CATEGORY, CATEGORIES, IGNORED_CHANNELS
 print("Env GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
 print("Env CATEGORIES:", CATEGORIES)
 print("Env MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
+print("Env IGNORED_CHANNELS:", IGNORED_CHANNELS)
 
 
 class TempVoice(Extension):
@@ -156,6 +157,9 @@ class TempVoice(Extension):
             return False
 
         if channel.id == GENERATOR_CHANNEL_ID:
+            return False
+
+        if channel.id in IGNORED_CHANNELS:
             return False
 
         return True
