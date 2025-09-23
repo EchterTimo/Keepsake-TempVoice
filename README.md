@@ -9,3 +9,4 @@ Custom-made temporary voice bot for Jump Space Discord.
 - `GENERATOR_CHANNEL_ID` — Channel ID where users can generate temp voice channels.
 - `CATEGORIES` — Comma-separated list of category IDs to use (e.g., `111, 222, 333, 444`). The bot will create temp voice channels in these categories, distributing them evenly.
 - `IGNORED_CHANNELS` — Comma-separated list of channel IDs to ignore (e.g., `555, 666`). They will not be deleted when empty.
+- `GUILD_ID` — Your Discord server (guild) ID. This is required for the bot to function properly.

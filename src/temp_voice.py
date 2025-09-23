@@ -14,11 +14,12 @@ from interactions.api.events import (
     ExtensionLoad,
     Ready
 )
-from config import GENERATOR_CHANNEL_ID, MAX_CHANNELS_PER_CATEGORY, CATEGORIES, IGNORED_CHANNELS
+from config import GENERATOR_CHANNEL_ID, MAX_CHANNELS_PER_CATEGORY, CATEGORIES, IGNORED_CHANNELS, GUILD_ID
 print("Env GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
 print("Env CATEGORIES:", CATEGORIES)
 print("Env MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
 print("Env IGNORED_CHANNELS:", IGNORED_CHANNELS)
+print("Env GUILD_ID:", GUILD_ID)
 
 
 class TempVoice(Extension):
@@ -28,8 +29,8 @@ class TempVoice(Extension):
 
     @listen(Ready)
     async def on_ready(self, event: Ready):
-        first_guild = self.bot.guilds[0]
-        await self.force_fetch_category_data(first_guild)
+        guild = self.bot.get_guild(GUILD_ID)
+        await self.force_fetch_category_data(guild)
 
     def __init__(self, bot):
         self.bot = bot
