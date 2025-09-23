@@ -54,6 +54,10 @@ class TempVoice(Extension):
     # Custom event handlers
     async def handle_voice_join(self, member: Member, channel: GuildVoice):
 
+        # skip if wrong guild
+        if channel.guild.id != GUILD_ID:
+            return
+
         # skip if not joining the generator channel
         if channel.id != GENERATOR_CHANNEL_ID:
             return
@@ -68,6 +72,11 @@ class TempVoice(Extension):
         _ = await self.create_temp_channel_and_move(member, best_category)
 
     async def handle_voice_leave(self, member: Member, channel: GuildVoice):
+
+        # skip if wrong guild
+        if channel.guild.id != GUILD_ID:
+            return
+
         # skip if channel is not a temp channel
         if not await self.is_temp_channel(channel):
             return
