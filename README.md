@@ -10,7 +10,7 @@ temp voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) 
 - Create temporary voice channels by joining a "generator" voice channel.
 - Automatically delete empty temporary voice channels.
 - Distribute temporary voice channels across multiple categories to avoid hitting Discord's category channel limit.
-- Ignore specific channels from being deleted when empty.
+- Per-user cooldown for creating new temporary voice channels, preventing spam.
 
 ## Environment Variables
 
