@@ -6,7 +6,7 @@ from interactions import (
 )
 from config import _BOT_TOKEN
 
-__VERSION__ = "0.2.7"
+__VERSION__ = "0.2.8"
 
 client = Client(
     disable_dm_commands=True,
