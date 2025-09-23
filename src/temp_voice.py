@@ -151,9 +151,15 @@ class TempVoice(Extension):
 
     async def is_temp_channel(self, channel: GuildVoice) -> bool:
         '''
-        A temp channel is any voice channel in the specified categories
-        that is not the generator channel.
+        A temp channel is any voice channel in the specified categories that:
+        - is in the specified guild
+        - is in one of the specified categories
+        - is not the generator channel.
+        - is not in the ignored channels list
         '''
+        if channel.guild.id != GUILD_ID:
+            return False
+
         if channel.category.id not in CATEGORIES:
             return False
 
