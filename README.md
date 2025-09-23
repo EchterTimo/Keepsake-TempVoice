@@ -1,6 +1,8 @@
+![Jump Space](./images/jump_space.jpeg)
+
 # Keepsake TempVoice
 
-Custom-made temporary voice bot for Jump Space Discord.
+Custom-made temporary voice bot for the Jump Space Discord. ([discord.gg/jumpspace](https://discord.gg/jumpspace))
 
 ## Features
 
