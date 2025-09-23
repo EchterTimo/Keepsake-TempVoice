@@ -3,7 +3,7 @@
 
 # Keepsake TempVoice
 
-Custom-made temporary voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) Discord. ([discord.gg/jumpspace](https://discord.gg/jumpspace))
+temp voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) Discord. ([discord.gg/jumpspace](https://discord.gg/jumpspace))
 
 ## Features
 
