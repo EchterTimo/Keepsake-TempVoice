@@ -2,6 +2,13 @@
 
 Custom-made temporary voice bot for Jump Space Discord.
 
+## Features
+
+- Create temporary voice channels by joining a "generator" voice channel.
+- Automatically delete empty temporary voice channels.
+- Distribute temporary voice channels across multiple categories to avoid hitting Discord's category channel limit.
+- Ignore specific channels from being deleted when empty.
+
 ## Environment Variables
 
 - `DISCORD_BOT_TOKEN` — Your Discord bot token.
