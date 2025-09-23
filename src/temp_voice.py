@@ -30,6 +30,9 @@ class TempVoice(Extension):
     @listen(Ready)
     async def on_ready(self, event: Ready):
         guild = self.bot.get_guild(GUILD_ID)
+        if not guild:
+            print(f"[ERROR] Guild with ID {GUILD_ID} not found!")
+            return
         await self.force_fetch_category_data(guild)
 
     def __init__(self, bot):
