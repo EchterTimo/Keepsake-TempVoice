@@ -15,7 +15,9 @@ from interactions.api.events import (
     Ready
 )
 from config import GENERATOR_CHANNEL_ID, MAX_CHANNELS_PER_CATEGORY, CATEGORIES
-print(CATEGORIES)
+print("Env GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
+print("Env CATEGORIES:", CATEGORIES)
+print("Env MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
 
 
 class TempVoice(Extension):
