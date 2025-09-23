@@ -112,6 +112,10 @@ class TempVoice(Extension):
         return new_channel
 
     async def delete_temp_channel(self, channel: GuildVoice) -> None:
+        # safety check
+        if not channel.type == ChannelType.GUILD_VOICE:
+            return
+
         await self.remove_channel_from_category(channel.category.id, channel.id)
         await channel.delete(
             reason='Last user left temporary voice channel'
