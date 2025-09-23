@@ -1,2 +1,2 @@
-discord-py-interactions
+discord-py-interactions==5.15.0
 python-dotenv
