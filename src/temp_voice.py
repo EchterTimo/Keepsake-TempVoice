@@ -185,11 +185,7 @@ class TempVoice(Extension):
             print(f'Found category: {category.id}, "{category.name}"')
             self.category_channels.setdefault(category.id, [])
 
-            for vc in category.voice_channels:
-
-                # skip the generator channel
-                if vc.id == GENERATOR_CHANNEL_ID:
-                    continue
+            for vc in category.channels:
 
                 # add channel to the category
                 self.category_channels[vc.category.id].append(
@@ -198,7 +194,7 @@ class TempVoice(Extension):
         all_channels = [ch for chs in self.category_channels.values()
                         for ch in chs]
         print('Found', len(all_channels),
-              'voice channel(s) in the provided categories.')
+              'channel(s) in the provided categories.')
 
     async def channel_is_empty(self, channel: GuildVoice) -> bool:
         user_amount = len(channel.voice_members)
