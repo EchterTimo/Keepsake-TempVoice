@@ -152,8 +152,8 @@ class TempVoice(Extension):
             category=category_id,
             reason=f"User {member.username} ({member.id}) joined the generator channel"
         )
-        await member.move(new_channel.id)
         await self.add_channel_to_category(category_id, new_channel.id)
+        await member.move(new_channel.id)
         return new_channel
 
     async def delete_temp_channel(self, channel: GuildVoice) -> None:
