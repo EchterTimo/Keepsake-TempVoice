@@ -197,7 +197,8 @@ class TempVoice(Extension):
 
         all_channels = [ch for chs in self.category_channels.values()
                         for ch in chs]
-        print('Found', len(all_channels), 'temp channels',)
+        print('Found', len(all_channels),
+              'voice channel(s) in the provided categories.')
 
     async def channel_is_empty(self, channel: GuildVoice) -> bool:
         user_amount = len(channel.voice_members)
