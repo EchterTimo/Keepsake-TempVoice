@@ -42,11 +42,11 @@ If you find this project helpful, please consider starring ⭐ the repository on
 
 - Copy `example.env` to `.env` and configure it.
 
-    > [!NOTE]
-    > To obtain your Discord bot token, go to the [Discord Developer Portal](https://discord.com/developers/applications), select your application, navigate to the **Bot** tab, and click **Reset Token** to get your bot token. Paste this value as `BOT_TOKEN` in your `.env` file.
-    ---
-    > [!CAUTION]
-    > Setting `MAX_CHANNELS_PER_CATEGORY` above 50 will lead to issues due to Discord's limit of 50 channels per category.
+> [!NOTE]
+> To obtain your Discord bot token, go to the [Discord Developer Portal](https://discord.com/developers/applications), select your application, navigate to the **Bot** tab, and click **Reset Token** to get your bot token. Paste this value as `BOT_TOKEN` in your `.env` file.
+
+> [!CAUTION]
+> Setting `MAX_CHANNELS_PER_CATEGORY` above 50 will lead to issues due to Discord's limit of 50 channels per category.
 
     | Variable                    | Description                                                                                                  |
     |-----------------------------|--------------------------------------------------------------------------------------------------------------|
