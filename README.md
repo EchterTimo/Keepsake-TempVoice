@@ -19,7 +19,7 @@ If you find this project helpful, please consider starring ⭐ the repository on
 - Distribute temporary voice channels across multiple categories to avoid hitting Discord's category channel limit.
 - Per-user cooldown for creating new temporary voice channels, preventing spam.
 
-## Prerequisites / Requirements / Dependencies / Requirements
+## Dependencies
 
 - Python 3.12 or higher installed on your machine.
 - A Discord Bot User
@@ -38,7 +38,7 @@ If you find this project helpful, please consider starring ⭐ the repository on
   - Copy the generated URL and open it in your browser
   - Select your server and authorize the bot
 
-## Getting Started / Installation / Usage / Deployment / How to Run
+## Usage
 
 - Copy `example.env` to `.env` and configure it.
 
