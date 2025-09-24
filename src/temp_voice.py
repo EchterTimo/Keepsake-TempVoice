@@ -222,7 +222,7 @@ class TempVoice(Extension):
         if channel.guild.id != GUILD_ID:
             return False
 
-        if channel.category.id not in CATEGORIES:
+        if channel.parent_id not in CATEGORIES:
             return False
 
         if channel.id == GENERATOR_CHANNEL_ID:
