@@ -161,10 +161,10 @@ class TempVoice(Extension):
         if not channel.type == ChannelType.GUILD_VOICE:
             return
 
-        await self.remove_channel_from_category(channel.category.id, channel.id)
         await channel.delete(
             reason='Last user left temporary voice channel'
         )
+        await self.remove_channel_from_category(channel.category.id, channel.id)
 
     async def force_fetch_category_data(self, guild: Guild):
         self.category_channels = {}
