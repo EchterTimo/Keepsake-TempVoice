@@ -239,8 +239,10 @@ class TempVoice(Extension):
     async def remove_channel_from_category(self, category_id: int, channel_id: int) -> bool:
         if category_id not in self.category_channels:
             return False
-        self.category_channels[category_id].remove(channel_id)
-        return True
+        if channel_id in self.category_channels[category_id]:
+            self.category_channels[category_id].remove(channel_id)
+            return True
+        return False
 
     async def can_create_channel(self, member: Member) -> bool:
         '''
