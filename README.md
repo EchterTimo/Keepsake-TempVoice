@@ -43,14 +43,14 @@ If you find this project helpful, please consider starring ⭐ the repository on
 - Copy `example.env` to `.env` and configure it.
 
     > [!NOTE]
-    > To obtain your Discord bot token, go to the [Discord Developer Portal](https://discord.com/developers/applications), select your application, navigate to the **Bot** tab, and click **Reset Token** to get your bot token. Paste this value as `DISCORD_BOT_TOKEN` in your `.env` file.
+    > To obtain your Discord bot token, go to the [Discord Developer Portal](https://discord.com/developers/applications), select your application, navigate to the **Bot** tab, and click **Reset Token** to get your bot token. Paste this value as `BOT_TOKEN` in your `.env` file.
     ---
     > [!CAUTION]
     > Setting `MAX_CHANNELS_PER_CATEGORY` above 50 will lead to issues due to Discord's limit of 50 channels per category.
 
     | Variable                    | Description                                                                                                  |
     |-----------------------------|--------------------------------------------------------------------------------------------------------------|
-    | `DISCORD_BOT_TOKEN`         | Your Discord bot token.                                                                                      |
+    | `BOT_TOKEN`         | Your Discord bot token.                                                                                              |
     | `MAX_CHANNELS_PER_CATEGORY` | Maximum number of channels allowed per category.                                                             |
     | `CREATION_COOLDOWN`         | Cooldown time in seconds between creating new temp voice channels for the same user. Helps prevent spam.     |
     | `GUILD_ID`                  | Your Discord server (guild) ID. Required for the bot to function.                                            |
