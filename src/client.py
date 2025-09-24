@@ -10,7 +10,7 @@ __VERSION__ = "0.3.2"
 
 client = Client(
     disable_dm_commands=True,
-    send_command_tracebacks=True,  # todo: remove in production
+    send_command_tracebacks=False,
     activity=Activity(
         name="Jump Space",
         state=f"Bot v{__VERSION__}",
