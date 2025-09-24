@@ -5,7 +5,12 @@
 
 temp voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) Discord. ([discord.gg/jumpspace](https://discord.gg/jumpspace))
 
-> If you like this project, consider giving it a star ⭐ on GitHub!
+> [!IMPORTANT]
+> This Bot is meant to be run on one server (guild) only. If you want to run it on multiple servers, you need to run multiple instances of the bot.
+
+## Support this project
+
+If you find this project helpful, please consider starring ⭐ the repository on GitHub.
 
 ## Features
 
@@ -37,10 +42,16 @@ temp voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) 
 
 - Copy `example.env` to `.env` and configure it.
 
+    > [!NOTE]
+    > To obtain your Discord bot token, go to the [Discord Developer Portal](https://discord.com/developers/applications), select your application, navigate to the **Bot** tab, and click **Reset Token** to get your bot token. Paste this value as `DISCORD_BOT_TOKEN` in your `.env` file.
+    ---
+    > [!CAUTION]
+    > Setting `MAX_CHANNELS_PER_CATEGORY` above 50 will lead to issues due to Discord's limit of 50 channels per category.
+
     | Variable                    | Description                                                                                                  |
     |-----------------------------|--------------------------------------------------------------------------------------------------------------|
     | `DISCORD_BOT_TOKEN`         | Your Discord bot token.                                                                                      |
-    | `MAX_CHANNELS_PER_CATEGORY` | Maximum number of channels allowed per category. Set below 50 to avoid Discord's limit.                      |
+    | `MAX_CHANNELS_PER_CATEGORY` | Maximum number of channels allowed per category.                                                             |
     | `CREATION_COOLDOWN`         | Cooldown time in seconds between creating new temp voice channels for the same user. Helps prevent spam.     |
     | `GUILD_ID`                  | Your Discord server (guild) ID. Required for the bot to function.                                            |
     | `GENERATOR_CHANNEL_ID`      | Channel ID where users generate temp voice channels.                                                         |
@@ -50,14 +61,21 @@ temp voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) 
 - Create a virtual environment (optional but recommended):
 
     ```bash
+    # Windows
     python -m venv .venv
+
+    # macOS/Linux
+    python3 -m venv .venv
     ```
 
 - Activate the virtual environment (if using one):
 
     ```bash
-    .venv/Scripts/activate  # On Windows
-    source .venv/bin/activate  # On macOS/Linux
+    # Windows
+    .venv/Scripts/activate
+    
+    # macOS/Linux
+    source .venv/bin/activate
     ```
 
 - Install the required packages:
@@ -71,3 +89,7 @@ temp voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) 
     ```bash
     python src/main.py
     ```
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request on GitHub.
