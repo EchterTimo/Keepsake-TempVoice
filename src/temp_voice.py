@@ -29,14 +29,14 @@ from config import (
 from utils import inline_heading, blank_line
 
 inline_heading("Settings: general")
-print("Env MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
-print("Env CREATION_COOLDOWN:", CREATION_COOLDOWN)
+print("MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
+print("CREATION_COOLDOWN:", CREATION_COOLDOWN)
 
 inline_heading("Settings: guild")
-print("Env GUILD_ID:", GUILD_ID)
-print("Env GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
-print("Env IGNORED_CHANNELS:", IGNORED_CHANNELS)
-print("Env CATEGORIES:", CATEGORIES)
+print("GUILD_ID:", GUILD_ID)
+print("GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
+print("IGNORED_CHANNELS:", IGNORED_CHANNELS)
+print("CATEGORIES:", CATEGORIES)
 
 
 class TempVoice(Extension):
