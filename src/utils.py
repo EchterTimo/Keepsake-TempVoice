@@ -15,6 +15,7 @@ def inline_heading(
         char (str): Character to use for the separator.
         offset (int): Number of chars before the text.
         separator (str): String used before and after the text.
+        should_print (bool): If True, prints the formatted line to stdout.
 
     Returns:
         str: A formatted separator line.
