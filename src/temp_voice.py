@@ -26,18 +26,17 @@ from config import (
     GUILD_ID,
     CREATION_COOLDOWN
 )
-print("-" * 140)
-print("BOT SETTINGS")
+from utils import inline_heading, blank_line
 
-print("- Env MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
-print("- Env CREATION_COOLDOWN:", CREATION_COOLDOWN)
+inline_heading("Settings: general")
+print("Env MAX_CHANNELS_PER_CATEGORY:", MAX_CHANNELS_PER_CATEGORY)
+print("Env CREATION_COOLDOWN:", CREATION_COOLDOWN)
 
-print("GUILD SPECIFIC SETTINGS")
-
-print("- Env GUILD_ID:", GUILD_ID)
-print("- Env GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
-print("- Env IGNORED_CHANNELS:", IGNORED_CHANNELS)
-print("- Env CATEGORIES:", CATEGORIES)
+inline_heading("Settings: guild")
+print("Env GUILD_ID:", GUILD_ID)
+print("Env GENERATOR_CHANNEL_ID:", GENERATOR_CHANNEL_ID)
+print("Env IGNORED_CHANNELS:", IGNORED_CHANNELS)
+print("Env CATEGORIES:", CATEGORIES)
 
 
 class TempVoice(Extension):
@@ -171,6 +170,7 @@ class TempVoice(Extension):
         self.category_channels = {}
         channels = await guild.fetch_channels()
         channels.sort(key=lambda c: c.position)
+        inline_heading("Fetched category data")
         for category in channels:
 
             # skip non-category channels. GuildCategory inherits from GuildChannel
@@ -182,6 +182,7 @@ class TempVoice(Extension):
                 continue
 
             # add category if not already present
+            print(f'Found category: {category.id}, "{category.name}"')
             self.category_channels.setdefault(category.id, [])
 
             for vc in category.voice_channels:
@@ -194,7 +195,9 @@ class TempVoice(Extension):
                 self.category_channels[vc.category.id].append(
                     vc.id)
 
-        print('Collected:', self.category_channels)
+        all_channels = [ch for chs in self.category_channels.values()
+                        for ch in chs]
+        print('Found', len(all_channels), 'temp channels',)
 
     async def channel_is_empty(self, channel: GuildVoice) -> bool:
         user_amount = len(channel.voice_members)
