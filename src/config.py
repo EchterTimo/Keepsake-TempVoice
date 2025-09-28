@@ -25,3 +25,7 @@ CATEGORIES = getenv_int_list('CATEGORIES')
 IGNORED_CHANNELS = getenv_int_list('IGNORED_CHANNELS')
 GUILD_ID = getenv_int('GUILD_ID')
 CREATION_COOLDOWN = getenv_int('CREATION_COOLDOWN')
+
+if MAX_CHANNELS_PER_CATEGORY > 50:
+    raise ValueError(
+        "MAX_CHANNELS_PER_CATEGORY should stay within Discord's 50-channel limit")
