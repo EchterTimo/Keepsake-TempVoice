@@ -19,8 +19,8 @@ def make_logger(name: str) -> logging.Logger:
     logs_dir = Path("logs")
     try:
         logs_dir.mkdir(parents=True, exist_ok=True)
-    except Exception:
-        # fallback to current directory if creation fails
+    except OSError as e:
+        logging.error(f"Failed to create logs directory '{logs_dir}': {e}. Falling back to current directory.")
         logs_dir = Path(".")
 
     # file handler (rotating)
