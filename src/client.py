@@ -62,22 +62,9 @@ def make_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
-    # avoid duplicate file handler for the same path
-    if not any(
-        isinstance(h, RotatingFileHandler) and Path(
-            getattr(h, "baseFilename", "")).resolve() == file_path.resolve()
-        for h in logger.handlers
-    ):
-        logger.addHandler(file_handler)
-
-    # avoid duplicate console handler
-    if not any(
-        isinstance(h, logging.StreamHandler) and getattr(
-            h, 'stream', None) is sys.stdout
-        for h in logger.handlers
-    ):
-        logger.addHandler(console_handler)
-
+    # add handlers
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
     return logger
 
 
