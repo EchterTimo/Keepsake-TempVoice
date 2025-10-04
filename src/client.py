@@ -20,7 +20,8 @@ def make_logger(name: str) -> logging.Logger:
     try:
         logs_dir.mkdir(parents=True, exist_ok=True)
     except OSError as e:
-        logging.error(f"Failed to create logs directory '{logs_dir}': {e}. Falling back to current directory.")
+        logging.error(
+            f"Failed to create logs directory '{logs_dir}': {e}. Falling back to current directory.")
         logs_dir = Path(".")
 
     # file handler (rotating)
@@ -68,7 +69,7 @@ def make_logger(name: str) -> logging.Logger:
     return logger
 
 
-__VERSION__ = "0.3.7"
+__VERSION__ = "0.3.8"
 
 client = Client(
     disable_dm_commands=True,
