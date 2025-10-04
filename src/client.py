@@ -27,7 +27,7 @@ def make_logger(name: str) -> logging.Logger:
     file_path = logs_dir / "bot.log"
     file_handler = RotatingFileHandler(
         filename=str(file_path),
-        maxBytes=5 * 1024 * 1024 * 4,  # 20 MB
+        maxBytes=20 * 1024 * 1024,  # 20 MB
         backupCount=5,
         encoding="utf-8",
     )
