@@ -50,13 +50,13 @@ If you find this project helpful, please consider starring ⭐ the repository on
 
     | Variable                    | Description                                                                                                  |
     |-----------------------------|--------------------------------------------------------------------------------------------------------------|
-    | `BOT_TOKEN`                 | Your Discord bot token.                                                                                      |
-    | `MAX_CHANNELS_PER_CATEGORY` | Maximum number of channels allowed per category.                                                             |
-    | `CREATION_COOLDOWN`         | Cooldown time in seconds between creating new temp voice channels for the same user. Helps prevent spam.     |
-    | `GUILD_ID`                  | Your Discord server (guild) ID. Required for the bot to function.                                            |
-    | `GENERATOR_CHANNEL_ID`      | Channel ID where users generate temp voice channels.                                                         |
-    | `CATEGORIES`                | Comma-separated list of category IDs to use. Temp voice channels are distributed among these.                |
-    | `IGNORED_CHANNELS`          | Comma-separated list of channel IDs to ignore. These will not be deleted when empty.                         |
+    | BOT_TOKEN                   | Your Discord bot token.                                                                                      |
+    | MAX_CHANNELS_PER_CATEGORY   | Maximum number of channels allowed per category.                                                             |
+    | CREATION_COOLDOWN           | Cooldown time in seconds between creating new temp voice channels for the same user. Helps prevent spam.     |
+    | GUILD_ID                    | Your Discord server (guild) ID. Required for the bot to function.                                            |
+    | GENERATOR_CHANNEL_ID        | Channel ID where users generate temp voice channels.                                                         |
+    | CATEGORIES                  | Comma-separated list of category IDs to use. Temp voice channels are distributed among these.                |
+    | IGNORED_CHANNELS            | Comma-separated list of channel IDs to ignore. These will not be deleted when empty.                         |
 
 - Create a virtual environment (optional but recommended):
 
