@@ -76,6 +76,7 @@ class TempVoice(Extension):
     def __init__(self, bot):
         self.bot = bot
         self.category_channels: dict[int, list[int]] = {}
+        '''category_id -> [channel_id, ...]'''
 
         self.user_last_channel_creation: dict[int, int] = {}
         '''user_id -> unix timestamp'''
