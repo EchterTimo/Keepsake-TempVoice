@@ -6,7 +6,6 @@ from interactions import (
     GuildVoice,
     Guild,
     ChannelType,
-    GuildChannel,
     Task,
     IntervalTrigger
 )
