@@ -106,14 +106,14 @@ class TempVoice(Extension):
         if channel.id != GENERATOR_CHANNEL_ID:
             return
 
+        # enforce user cooldown to prevent rapid join/leave exploits
+        if not await self.can_create_channel(member):
+            return
+
         # find the best category to create the channel in
         best_category = await self.get_best_category(member.guild)
         if best_category is None:
             print("[NOT GOOD] No available categories to create a new channel in")
-            return
-
-        # enforce user cooldown to prevent rapid join/leave exploits
-        if not await self.can_create_channel(member):
             return
 
         # create the temporary channel and move the user
