@@ -372,7 +372,7 @@ class TempVoice(Extension):
     async def put_channel_owner(self, channel_id: int, user_id: int):
         '''
         Associate a channel with its owner.
-        Ignores if already set or channel exists.
+        Overwrites any existing association.
         '''
         self.channel_owners[channel_id] = user_id
 
