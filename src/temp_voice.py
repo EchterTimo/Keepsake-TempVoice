@@ -378,7 +378,7 @@ class TempVoice(Extension):
 
     async def remove_channel_from_ownership_store(self, channel_id: int) -> bool:
         '''Remove the association of a channel with its owner.'''
-        if channel_id in self.channel_owners.keys():
+        if channel_id in self.channel_owners:
             del self.channel_owners[channel_id]
             return True
         return False
