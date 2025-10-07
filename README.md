@@ -16,6 +16,7 @@ If you find this project helpful, please consider starring ⭐ the repository on
 
 - Create temporary voice channels by joining a "generator" voice channel.
 - Automatically delete empty temporary voice channels.
+- The channel owner can ban members from his channel.
 - Distribute temporary voice channels across multiple categories to avoid hitting Discord's category channel limit.
 - Per-user cooldown for creating new temporary voice channels, preventing spam.
 
