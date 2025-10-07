@@ -121,6 +121,10 @@ class TempVoice(Extension):
             await ctx.send("You cannot ban bots from voice channels.", ephemeral=True)
             return
 
+        # prevent self-ban
+        if user.id == ctx.author.id:
+            await ctx.send("You cannot ban yourself from your own voice channel.", ephemeral=True)
+            return
         # get current voice channel of the command user
         if not ctx.author.voice:
             await ctx.send("You must be in a voice channel to use this command.", ephemeral=True)
