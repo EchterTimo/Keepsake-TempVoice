@@ -11,8 +11,7 @@ from interactions import (
     slash_command,
     slash_option,
     SlashContext,
-    OptionType,
-    User
+    OptionType
 )
 from interactions.api.events import (
     VoiceUserJoin,
@@ -115,7 +114,7 @@ class TempVoice(Extension):
         opt_type=OptionType.USER,
         required=True
     )
-    async def voice_ban(self, ctx: SlashContext, user: User):
+    async def voice_ban(self, ctx: SlashContext, user: Member):
         # check if target is a bot
         if user.bot:
             await ctx.send("You cannot ban bots from voice channels.", ephemeral=True)
@@ -149,6 +148,10 @@ class TempVoice(Extension):
             connect=False
         )
 
+        # disconect the user from the channel if they are currently in it
+        if user.voice and user.voice.channel and user.voice.channel.id == author_voice_channel.id:
+            await user.move(None)
+
         await author_voice_channel.send(f"{ctx.author.mention} has banned {user.mention} from this voice channel.")
         await ctx.send(f"Successfully banned {user.mention} from your voice channel.", ephemeral=True)
 
@@ -162,7 +165,7 @@ class TempVoice(Extension):
         opt_type=OptionType.USER,
         required=True
     )
-    async def voice_unban(self, ctx: SlashContext, user: User):
+    async def voice_unban(self, ctx: SlashContext, user: Member):
         # check if target is a bot
         if user.bot:
             await ctx.send("You cannot unban bots from voice channels.", ephemeral=True)
