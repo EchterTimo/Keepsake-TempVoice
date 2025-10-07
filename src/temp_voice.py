@@ -6,9 +6,12 @@ from interactions import (
     GuildVoice,
     Guild,
     ChannelType,
-    GuildChannel,
     Task,
-    IntervalTrigger
+    IntervalTrigger,
+    slash_command,
+    slash_option,
+    SlashContext,
+    OptionType
 )
 from interactions.api.events import (
     VoiceUserJoin,
@@ -51,6 +54,8 @@ class TempVoice(Extension):
             print(
                 f"[ERROR] Guild with ID {GUILD_ID} not found! The bot needs to be installed in that guild.")
             return
+        print(
+            f"PERMISSIONS: https://discordapi.com/permissions.html#{guild.permissions}")
         await self.force_fetch_category_data(guild)
 
     @listen(Startup)
@@ -78,6 +83,9 @@ class TempVoice(Extension):
         self.category_channels: dict[int, list[int]] = {}
         '''category_id -> [channel_id, ...]'''
 
+        self.channel_owners: dict[int, int] = {}
+        '''channel_id -> user_id'''
+
         self.user_last_channel_creation: dict[int, int] = {}
         '''user_id -> unix timestamp'''
 
@@ -96,7 +104,98 @@ class TempVoice(Extension):
     async def on_voice_user_leave(self, event: VoiceUserLeave):
         await self.handle_voice_leave(event.author, event.channel)
 
-    # Custom event handlers
+    @slash_command(
+        name="voice-ban",
+        description="Ban a user from joining your voice channel",
+    )
+    @slash_option(
+        name="user",
+        description="The user to ban",
+        opt_type=OptionType.USER,
+        required=True
+    )
+    async def voice_ban(self, ctx: SlashContext, user: Member):
+        # check if target is a bot
+        if user.bot:
+            await ctx.send("You cannot ban bots from voice channels.", ephemeral=True)
+            return
+
+        # prevent self-ban
+        if user.id == ctx.author.id:
+            await ctx.send("You cannot ban yourself from your own voice channel.", ephemeral=True)
+            return
+        # get current voice channel of the command user
+        if not ctx.author.voice:
+            await ctx.send("You must be in a voice channel to use this command.", ephemeral=True)
+            return
+        author_voice_channel = ctx.author.voice.channel
+
+        # get owner of channel
+        owned_channel_id = await self.get_channel_id_by_owner(ctx.author.id)
+        if not owned_channel_id:
+            await ctx.send("You can only ban users from your own voice channel.", ephemeral=True)
+            return
+        # todo: last modification
+
+        # check if the owned channel is the same as the current voice channel
+        if owned_channel_id != author_voice_channel.id:
+            await ctx.send("You can only ban users when you are in your own voice channel.", ephemeral=True)
+            return
+
+        await author_voice_channel.set_permission(
+            target=user,
+            reason=f"User {ctx.author.username} ({ctx.author.id}) banned {user.username} ({user.id}) from their voice channel",
+            connect=False
+        )
+
+        # disconect the user from the channel if they are currently in it
+        if user.voice and user.voice.channel and user.voice.channel.id == author_voice_channel.id:
+            await user.move(None)
+
+        await author_voice_channel.send(f"{ctx.author.mention} has banned {user.mention} from this voice channel.")
+        await ctx.send(f"Successfully banned {user.mention} from your voice channel.", ephemeral=True)
+
+    @slash_command(
+        name="voice-unban",
+        description="Revoke a user's ban from your voice channel",
+    )
+    @slash_option(
+        name="user",
+        description="The user to unban",
+        opt_type=OptionType.USER,
+        required=True
+    )
+    async def voice_unban(self, ctx: SlashContext, user: Member):
+        # check if target is a bot
+        if user.bot:
+            await ctx.send("You cannot unban bots from voice channels.", ephemeral=True)
+            return
+
+        # get current voice channel of the command user
+        if not ctx.author.voice:
+            await ctx.send("You must be in a voice channel to use this command.", ephemeral=True)
+            return
+        author_voice_channel = ctx.author.voice.channel
+
+        # get owner of channel
+        owned_channel_id = await self.get_channel_id_by_owner(ctx.author.id)
+        if not owned_channel_id:
+            await ctx.send("You can only unban users from your own voice channel.", ephemeral=True)
+            return
+
+        # check if the owned channel is the same as the current voice channel
+        if owned_channel_id != author_voice_channel.id:
+            await ctx.send("You can only unban users when you are in your own voice channel.", ephemeral=True)
+            return
+
+        await author_voice_channel.set_permission(
+            target=user,
+            reason=f"User {ctx.author.username} ({ctx.author.id}) unbanned {user.username} ({user.id}) from their voice channel",
+            connect=None  # Reset to default
+        )
+        await author_voice_channel.send(f"{ctx.author.mention} has unbanned {user.mention} from this voice channel.")
+        await ctx.send(f"Successfully unbanned {user.mention} from your voice channel.", ephemeral=True)
+
     async def handle_voice_join(self, member: Member, channel: GuildVoice):
 
         # skip if wrong guild
@@ -130,6 +229,11 @@ class TempVoice(Extension):
         if not await self.is_temp_channel(channel):
             return
 
+        # todo: implement owner leaving logic
+        # check if member is the owner of the channel
+        # if await self.is_channel_owner(member.id, channel.id):
+        #     print("its the owner leaving")
+
         # check if the channel is now empty
         if not await self.channel_is_empty(channel):
             return
@@ -155,6 +259,7 @@ class TempVoice(Extension):
         )
         await self.add_channel_to_category(category_id, new_channel.id)
         await member.move(new_channel.id)
+        await self.put_channel_owner(new_channel.id, member.id)
         return new_channel
 
     async def delete_temp_channel(self, channel: GuildVoice) -> None:
@@ -162,6 +267,7 @@ class TempVoice(Extension):
         if not channel.type == ChannelType.GUILD_VOICE:
             return
 
+        await self.remove_channel_from_ownership_store(channel.id)
         await channel.delete(
             reason='Last user left temporary voice channel'
         )
@@ -258,3 +364,31 @@ class TempVoice(Extension):
 
         self.user_last_channel_creation[member.id] = current_time
         return True
+
+    async def get_channel_owner(self, channel_id: int) -> int | None:
+        return self.channel_owners.get(channel_id, None)
+
+    async def is_channel_owner(self, user_id: int, channel_id: int) -> bool:
+        owner_id = await self.get_channel_owner(channel_id)
+        return owner_id == user_id
+
+    async def put_channel_owner(self, channel_id: int, user_id: int):
+        '''
+        Associate a channel with its owner.
+        Overwrites any existing association.
+        '''
+        self.channel_owners[channel_id] = user_id
+
+    async def remove_channel_from_ownership_store(self, channel_id: int) -> bool:
+        '''Remove the association of a channel with its owner.'''
+        if channel_id in self.channel_owners:
+            del self.channel_owners[channel_id]
+            return True
+        return False
+
+    async def get_channel_id_by_owner(self, user_id: int) -> int | None:
+        channel_owners = self.channel_owners.copy()
+        for channel_id, owner_id in channel_owners.items():
+            if owner_id == user_id:
+                return channel_id
+        return None

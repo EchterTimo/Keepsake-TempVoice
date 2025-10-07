@@ -34,7 +34,13 @@ If you find this project helpful, please consider starring ⭐ the repository on
 
 - Go to the **OAuth2** tab and use the **URL Generator** like described below:
   - Under **SCOPES** select `bot` and `applications.commands`
-  - Under **BOT PERMISSIONS** select `Manage Channels`, `View Channels` and `Move Members`
+  - Under **BOT PERMISSIONS** enable...
+    - `Manage Roles`
+    - `Manage Channels`
+    - `View Channels`
+    - `Send Messages`
+    - `Send Messages in Threads`
+    - `Move Members`
   - Copy the generated URL and open it in your browser
   - Select your server and authorize the bot
 

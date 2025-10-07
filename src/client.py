@@ -74,6 +74,7 @@ __VERSION__ = "0.3.9"
 client = Client(
     disable_dm_commands=True,
     send_command_tracebacks=False,
+    delete_unused_application_cmds=True,
     activity=Activity(
         name="Jump Space",
         state=f"Bot v{__VERSION__}",
