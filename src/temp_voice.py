@@ -50,7 +50,8 @@ class TempVoice(Extension):
             print(
                 f"[ERROR] Guild with ID {GUILD_ID} not found! The bot needs to be installed in that guild.")
             return
-        print("PERMISSIONS:", guild.permissions)
+        print(
+            f"PERMISSIONS: https://discordapi.com/permissions.html#{guild.permissions}")
         await self.force_fetch_category_data(guild)
 
     @listen(Startup)
