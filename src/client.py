@@ -69,7 +69,7 @@ def make_logger(name: str) -> logging.Logger:
     return logger
 
 
-__VERSION__ = "0.4.0"
+__VERSION__ = "0.4.1"
 
 client = Client(
     disable_dm_commands=True,
