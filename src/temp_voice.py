@@ -1,4 +1,6 @@
 import time
+import asyncio
+
 from interactions import (
     Extension,
     listen,
@@ -85,6 +87,12 @@ class TempVoice(Extension):
 
         self.channel_owners: dict[int, int] = {}
         '''channel_id -> user_id'''
+
+        self.channel_owners_lock: asyncio.Lock = asyncio.Lock()
+        '''
+        Protect access to channel_owners with an asyncio lock to avoid
+        race conditions when reading/writing from multiple event handlers.
+        '''
 
         self.user_last_channel_creation: dict[int, int] = {}
         '''user_id -> unix timestamp'''
@@ -366,7 +374,8 @@ class TempVoice(Extension):
         return True
 
     async def get_channel_owner(self, channel_id: int) -> int | None:
-        return self.channel_owners.get(channel_id, None)
+        async with self.channel_owners_lock:
+            return self.channel_owners.get(channel_id, None)
 
     async def is_channel_owner(self, user_id: int, channel_id: int) -> bool:
         owner_id = await self.get_channel_owner(channel_id)
@@ -377,18 +386,20 @@ class TempVoice(Extension):
         Associate a channel with its owner.
         Overwrites any existing association.
         '''
-        self.channel_owners[channel_id] = user_id
+        async with self.channel_owners_lock:
+            self.channel_owners[channel_id] = user_id
 
     async def remove_channel_from_ownership_store(self, channel_id: int) -> bool:
         '''Remove the association of a channel with its owner.'''
-        if channel_id in self.channel_owners:
-            del self.channel_owners[channel_id]
-            return True
-        return False
+        async with self.channel_owners_lock:
+            if channel_id in self.channel_owners:
+                del self.channel_owners[channel_id]
+                return True
+            return False
 
     async def get_channel_id_by_owner(self, user_id: int) -> int | None:
-        channel_owners = self.channel_owners.copy()
-        for channel_id, owner_id in channel_owners.items():
-            if owner_id == user_id:
-                return channel_id
+        async with self.channel_owners_lock:
+            for channel_id, owner_id in self.channel_owners.items():
+                if owner_id == user_id:
+                    return channel_id
         return None
