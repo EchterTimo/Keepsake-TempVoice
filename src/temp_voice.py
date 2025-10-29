@@ -59,6 +59,7 @@ class TempVoice(Extension):
         print(
             f"PERMISSIONS: https://discordapi.com/permissions.html#{guild.permissions}")
         await self.force_fetch_category_data(guild)
+        await self.cleanup_temp_channels()
 
     @listen(Startup)
     async def on_startup(self, event: Startup):
@@ -313,7 +314,7 @@ class TempVoice(Extension):
 
     async def channel_is_empty(self, channel: GuildVoice) -> bool:
         user_amount = len(channel.voice_members)
-        return user_amount == 1
+        return user_amount <= 1
 
     async def get_best_category(self, guild: Guild) -> int | None:
         '''
@@ -403,3 +404,15 @@ class TempVoice(Extension):
                 if owner_id == user_id:
                     return channel_id
             return None
+
+    async def cleanup_temp_channels(self):
+        '''
+        Iterate through all tracked temp channels and delete those that are empty.
+        '''
+        print("Cleaning up old temp channels...")
+        for channel_ids in self.category_channels.values():
+            for channel_id in channel_ids:
+                channel = self.bot.get_channel(channel_id)
+                if channel and await self.channel_is_empty(channel):
+                    await self.delete_temp_channel(channel)
+        print("Cleanup complete.")
