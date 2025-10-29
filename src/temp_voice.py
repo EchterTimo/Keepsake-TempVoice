@@ -413,6 +413,13 @@ class TempVoice(Extension):
         for channel_ids in self.category_channels.values():
             for channel_id in channel_ids:
                 channel = self.bot.get_channel(channel_id)
-                if channel and await self.channel_is_empty(channel):
-                    await self.delete_temp_channel(channel)
+
+                if not channel:
+                    continue
+                if not await self.channel_is_empty(channel):
+                    continue
+                if channel.id in IGNORED_CHANNELS or channel.id == GENERATOR_CHANNEL_ID:
+                    continue
+                await self.delete_temp_channel(channel)
+
         print("Cleanup complete.")
