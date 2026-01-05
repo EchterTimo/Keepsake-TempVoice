@@ -1,31 +1,17 @@
-from os import getenv
-from dotenv import load_dotenv
+from environs import Env
 
+env = Env()
+env.read_env()
 
-def getenv_int_list(key: str) -> list[int]:
-    string = getenv(key)
-    categories = []
-    for cat in string.split(','):
-        cat = cat.strip()
-        if cat.isdigit():
-            categories.append(int(cat))
-    return categories
-
-
-def getenv_int(key: str):
-    return int(getenv(key))
-
-
-load_dotenv()
-_BOT_TOKEN = getenv('BOT_TOKEN')
-
-GENERATOR_CHANNEL_ID = getenv_int('GENERATOR_CHANNEL_ID')
-MAX_CHANNELS_PER_CATEGORY = getenv_int('MAX_CHANNELS_PER_CATEGORY')
-CATEGORIES = getenv_int_list('CATEGORIES')
-IGNORED_CHANNELS = getenv_int_list('IGNORED_CHANNELS')
-GUILD_ID = getenv_int('GUILD_ID')
-CREATION_COOLDOWN = getenv_int('CREATION_COOLDOWN')
+GENERATOR_CHANNEL_ID = env.int("GENERATOR_CHANNEL_ID")
+MAX_CHANNELS_PER_CATEGORY = env.int("MAX_CHANNELS_PER_CATEGORY")
+CATEGORIES = env.list("CATEGORIES", subcast=int)
+IGNORED_CHANNELS = env.list("IGNORED_CHANNELS", subcast=int)
+GUILD_ID = env.int("GUILD_ID")
+CREATION_COOLDOWN = env.int("CREATION_COOLDOWN")
+_BOT_TOKEN = env.str("BOT_TOKEN")
 
 if MAX_CHANNELS_PER_CATEGORY > 50:
     raise ValueError(
-        "MAX_CHANNELS_PER_CATEGORY should stay within Discord's 50-channel limit")
+        "MAX_CHANNELS_PER_CATEGORY should stay within Discord's 50-channel limit"
+    )
