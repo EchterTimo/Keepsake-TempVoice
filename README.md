@@ -6,7 +6,7 @@
 temp voice bot for the [Jump Space](https://store.steampowered.com/app/1757300) Discord. ([discord.gg/jumpspace](https://discord.gg/jumpspace))
 
 > [!IMPORTANT]
-> This Bot is meant to be run on one server (guild) only. If you want to run it on multiple servers, you need to run multiple instances of the bot.
+> This Bot is meant to be run on one discord server (guild) only. If you want to run it on multiple servers, you need to run multiple instances of the bot.
 
 ## Support this project
 
