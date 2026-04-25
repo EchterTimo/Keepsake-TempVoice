@@ -1,0 +1,9 @@
+services:
+  bot:
+    build: .
+    container_name: keepsake-tempvoice-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
