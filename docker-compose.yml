@@ -1,5 +1,5 @@
 services:
-  bot:
+  keepsake-tempvoice-bot:
     build: .
     container_name: keepsake-tempvoice-bot
     restart: unless-stopped
