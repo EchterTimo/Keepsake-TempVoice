@@ -22,7 +22,7 @@ If you find this project helpful, please consider starring ⭐ the repository on
 
 ## Dependencies
 
-- Python 3.12 or higher installed on your machine.
+- Python 3.13 or higher installed on your machine.
 - A Discord Bot User
 
 ## Create and configure your bot
