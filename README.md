@@ -74,6 +74,15 @@ uv sync
 uv run python src/main.py
 ```
 
+## Run using docker compose
+
+```bash
+docker compose -up
+
+# and to stop
+docker compose down
+```
+
 ## Run manually
 
 - Create a virtual environment (optional but recommended):
