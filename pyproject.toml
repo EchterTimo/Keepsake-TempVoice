@@ -7,3 +7,6 @@ dependencies = [
     "discord-py-interactions>=5.16.0",
     "environs>=15.0.1",
 ]
+
+[tool.uv]
+package = false
