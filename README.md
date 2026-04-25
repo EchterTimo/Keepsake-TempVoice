@@ -77,10 +77,17 @@ uv run python src/main.py
 ## Run using docker compose
 
 ```bash
-docker compose up --build -d
+# start
+docker compose up -d --build
 
-# and to stop
+# stop
 docker compose down
+
+# start with project name (recommended for environments)
+docker compose -p prod up -d --build
+
+# stop with project name
+docker compose -p prod down
 ```
 
 ## Run manually
