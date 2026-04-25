@@ -77,7 +77,7 @@ uv run python src/main.py
 ## Run using docker compose
 
 ```bash
-docker compose -up
+docker compose up --build -d
 
 # and to stop
 docker compose down
