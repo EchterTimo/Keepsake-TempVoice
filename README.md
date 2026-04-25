@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD041 -->
-![Jump Space](./images/jump_space.jpeg)
+[![Jump Space](./images/jump_space.jpeg)](https://jumpspacegame.com)
 
 # Keepsake TempVoice
 
